@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Reservas – Yet Hernández Studio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #d4af37;
+      text-align: center;
+    }
+    .pagina {
+      display: none;
+    }
+    .pagina.active {
+      display: block;
+    }
+    button {
+      background-color: #d4af37;
+      color: #000;
+      border: none;
+      padding: 10px 15px;
+      margin: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #b38e2f;
+    }
+    .servicio {
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid #d4af37;
+      border-radius: 5px;
+    }
+    input[type="checkbox"] {
+      margin-right: 10px;
+    }
+    .formulario {
+      margin-top: 20px;
+    }
+    label {
+      display: block;
+      margin: 5px 0;
+    }
+    input, select {
+      padding: 5px;
+      margin: 5px 0;
+      width: 80%;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Página 1: Logo -->
+  <div id="pagina1" class="pagina active">
+    <img src="logo.png" alt="Logo Yet Hernández Studio" width="200">
+    <h1>Yet Hernández Studio</h1>
+    <button onclick="mostrarPagina(2)">Entrar</button>
+  </div>
+
+  <!-- Página 2: Servicios -->
+  <div id="pagina2" class="pagina">
+    <h2>Servicios</h2>
+    <div class="servicio"><input type="checkbox" value="Manos - Tradicional (25.000)"> Manos - Tradicional (25.000)</div>
+    <div class="servicio"><input type="checkbox" value="Manos - Semipermanente (40.000)"> Manos - Semipermanente (40.000)</div>
+    <div class="servicio"><input type="checkbox" value="Manos - Acrílico (90.000)"> Manos - Acrílico (90.000)</div>
+    <div class="servicio"><input type="checkbox" value="Manos - Press On (80.000)"> Manos - Press On (80.000)</div>
+    <div class="servicio"><input type="checkbox" value="Recubrimiento - Polygel, Dipping, Bluindergel (70.000)"> Recubrimiento - Polygel, Dipping, Bluindergel (70.000)</div>
+    <div class="servicio"><input type="checkbox" value="Retoque - Acrílico, Polygel, Dipping, Bluindergel (70.000)"> Retoque - Acrílico, Polygel, Dipping, Bluindergel (70.000)</div>
+    <div class="servicio"><input type="checkbox" value="Pies - Tradicional (25.000)"> Pies - Tradicional (25.000)</div>
+    <div class="servicio"><input type="checkbox" value="Pies - Semipermanente (40.000)"> Pies - Semipermanente (40.000)</div>
+    <div class="servicio"><input type="checkbox" value="Montura Pestañas (80.000)"> Montura Pestañas (80.000)</div>
+    <div class="servicio"><input type="checkbox" value="Retoque Pestañas (65.000)"> Retoque Pestañas (65.000)</div>
+
+    <button onclick="mostrarPagina(3)">Continuar</button>
+  </div>
+
+  <!-- Página 3: Formulario -->
+  <div id="pagina3" class="pagina">
+    <h2>Formulario de Reserva</h2>
+    <form id="reservaForm" class="formulario">
+      <label>Cliente:</label>
+      <input type="text" id="cliente" required>
+      
+      <label>Día:</label>
+      <select id="dia" required>
+        <option value="">Selecciona un día</option>
+        <option>Lunes</option><option>Martes</option><option>Miércoles</option>
+        <option>Jueves</option><option>Viernes</option><option>Sábado</option><option>Domingo</option>
+      </select>
+      
+      <label>Hora:</label>
+      <input type="time" id="hora" required>
+      
+      <label>Profesional:</label>
+      <select id="profesional" required>
+        <option value="">Selecciona</option>
+        <option>Yetzareth</option>
+        <option>Catalina</option>
+        <option>Daniela</option>
+      </select>
+      
+      <button type="submit">Enviar a WhatsApp</button>
+    </form>
+  </div>
+
+  <script>
+    function mostrarPagina(num) {
+      document.querySelectorAll('.pagina').forEach(p => p.classList.remove('active'));
+      document.getElementById('pagina' + num).classList.add('active');
+    }
+
+    document.getElementById('reservaForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const cliente = document.getElementById('cliente').value;
+      const dia = document.getElementById('dia').value;
+      const hora = document.getElementById('hora').value;
+      const profesional = document.getElementById('profesional').value;
+      const servicios = Array.from(document.querySelectorAll('#pagina2 input[type="checkbox"]:checked'))
+        .map(cb => cb.value).join(', ');
+
+      const mensaje = `Reserva:\nCliente: ${cliente}\nDía: ${dia}\nHora: ${hora}\nProfesional: ${profesional}\nServicios: ${servicios}`;
+      const url = `https://wa.me/573019092808?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, '_blank');
+    });
+  </script>
+
+</body>
+</html>
